@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { getNewsData } from '../../utils/api';
+import { getTime } from '../../utils/getTime';
 
 export function News(props) {
   const [news, setNews] = useState({});
@@ -17,8 +18,6 @@ export function News(props) {
     getNews();
   }, [getNews]);
 
-  console.log('news ', news)
-
   return news && news.title ? (
     <div className='news'>
       <h1 className='news__title'>{news.title}</h1>
@@ -26,7 +25,7 @@ export function News(props) {
         <p className='news__text'>author: {news.by}</p>
         <div className='news__addition'>
           <p className='news__text'>rating: {news.score}</p>
-          <p className='news__text'>date: {news.time}</p>
+          <p className='news__text'>posted: {getTime(news.time)}</p>
         </div>
       </div>
     </div>
