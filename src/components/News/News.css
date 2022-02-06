@@ -1,0 +1,30 @@
+.news {
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  margin: 20px 0;
+}
+
+.news__title {
+  font-size: 20px;
+  line-height: 26px;
+  margin: 0;
+}
+
+.news__about {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  line-height: 20px;
+  color: #a1a1a1;
+}
+
+.news__addition {
+  display: flex;
+}
+
+.news__text {
+  margin: 10px 0;
+  padding-right: 30px;
+}
+.news__text:last-child {
+  padding-right: 0;
+}

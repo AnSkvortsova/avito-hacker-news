@@ -2,3 +2,5 @@
 @import url(./vendor/fonts/fonts.css);
 
 @import url(./components/App/App.css);
+@import url(./components/NewsList/NewsList.css);
+@import url(./components/News/News.css);

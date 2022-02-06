@@ -1,0 +1,22 @@
+.newsList {
+  width: 1140px;
+  margin: 0 auto;
+}
+
+.newsList__title {
+  font-size: 26px;
+  line-height: 28px;
+  margin: 30px 0;
+}
+
+@media (max-width: 1180px) {
+  .newsList {
+    width: 708px
+  }
+}
+
+@media (max-width: 740px) {
+  .newsList {
+    width: 300px
+  }
+}
