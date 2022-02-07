@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
-import { NewsList } from '../NewsList/NewsList';
-
-import * as api from '../../utils/api';
+import NewsList from '../NewsList/NewsList';
+import { NewsPage } from '../NewsPage/NewsPage';
 
 function App() {
-  const [newsIds, setNewsIds] = useState([]);
-
-  function getNewsIds() {
-    api.getNewsIds()
-    .then((data) => {
-      setNewsIds(data);
-      console.log('handleButtonClick')
-    })
-    .catch((err) => {console.log(err)})
-  };
-
-  useEffect(() => {
-    getNewsIds();
-    console.log('useEffect is here')
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getNewsIds();
-      console.log('update');
-    }, 60000);
-    return () => clearTimeout(timer);
-  });
   
+
   return (
     <div className='app'>
-      <NewsList
-      newsIds = {newsIds}
-      update = {getNewsIds} />
+      <Route exact path='/'>
+        <NewsList />
+      </Route>
+      <Route path='/news'>
+        <NewsPage />
+      </Route>
     </div>
   );
 }

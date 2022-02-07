@@ -1,10 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getNewsData } from '../../utils/api';
+import { getNews } from '../../redux/actions';
 import { getTime } from '../../utils/getTime';
+import { getNewsData } from '../../utils/api';
 
 export function News(props) {
+  //const dispatch = useDispatch();
+  //const news = useSelector(state => state.news.news)
+  
+
   const [news, setNews] = useState({});
+  console.log('news ', news)
 
   const getNews = useCallback(
     () => {
@@ -15,11 +23,13 @@ export function News(props) {
   );
 
   useEffect(() => {
-    getNews();
-  }, [getNews]);
+    getNews()
+   // dispatch(getNews(props.newsId))
+    console.log('newsId ', props.newsId)
+  }, []);
 
   return news && news.title ? (
-    <div className='news'>
+    <Link to='/news' className='news'>
       <h1 className='news__title'>{news.title}</h1>
       <div className='news__about'>
         <p className='news__text'>author: {news.by}</p>
@@ -28,6 +38,6 @@ export function News(props) {
           <p className='news__text'>posted: {getTime(news.time)}</p>
         </div>
       </div>
-    </div>
+    </Link>
   ) : null;
 };

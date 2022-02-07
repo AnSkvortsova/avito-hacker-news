@@ -1,12 +1,18 @@
 .news {
+  display: block;
   border-bottom: 1px solid rgba(0,0,0,0.15);
   margin: 20px 0;
+  text-decoration: none;
+}
+.news:hover {
+  border-bottom: 1px solid rgb(0,0,0);
 }
 
 .news__title {
   font-size: 20px;
   line-height: 26px;
   margin: 0;
+  color: #000000;
 }
 
 .news__about {

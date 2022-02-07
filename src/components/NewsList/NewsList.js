@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { News } from '../News/News';
+import { getNewsIds } from '../../redux/actions';
 import { MAX_NEWS } from '../../utils/constance';
 
-export function NewsList(props) {
+const NewsList = () => {
+  const dispatch = useDispatch();
+  const newsIds = useSelector(state => state.news.newsIds)
 
+  useEffect(() => {
+    dispatch(getNewsIds());
+    console.log('useEffect is here')
+  }, [dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(getNewsIds());
+      console.log('update');
+    }, 60000);
+    return () => clearTimeout(timer);
+  });
+
+  console.log('newsIds ', newsIds)
   return (
     <section className='newsList'>
       <header className='newsList__header'>
@@ -12,16 +30,17 @@ export function NewsList(props) {
         <button 
         className='newsList__button' 
         type='button' 
-        onClick={props.update}
+        onClick={() => dispatch(getNewsIds())}
         aria-label='update'>Update</button>
       </header>
 
-      {props.newsIds.slice(0, MAX_NEWS).map((newsId) => (
+      {newsIds.slice(0, MAX_NEWS).map((newsId) => (
         <News
         key = {newsId}
-        newsId = {newsId}
-         />
+        newsId = {newsId} />
       ))}
     </section>
   );
 };
+
+export default NewsList;
