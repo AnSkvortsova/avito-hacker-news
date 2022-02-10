@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import NewsList from '../NewsList/NewsList';
+import { NewsList } from '../NewsList/NewsList';
 import { NewsPage } from '../NewsPage/NewsPage';
+
 
 function App() {
   
-
   return (
     <div className='app'>
       <Route exact path='/'>

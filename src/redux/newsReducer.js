@@ -1,15 +1,17 @@
-import { GET_NEWS_IDS, GET_NEWS } from './types';
+import { types } from './types';
+
 const initialState = {
   newsIds: [],
-  news: {}
+  news: [],
+  isLoading: false,
 };
 
 export const newsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_NEWS_IDS:
+    case types.GET_NEWS_IDS_SUCCESS:
       return { ...state, newsIds: action.payload };
-    case GET_NEWS:
-      return { ...state, news: action.payload };
+    case types.GET_NEWS_SUCCESS:
+      return { ...state, news: [action.payload, ...state.news], isLoading: false };
     default: return state;
   };
 };

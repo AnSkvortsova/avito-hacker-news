@@ -7,17 +7,17 @@ const checkResult = (response) => {
   return Promise.reject(`Ошибка: ${response.status}`)
 };
 
-export const getNewsIds = () => {
-  return fetch(`${API_BASE_URL}/newstories.json`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}).then((response) => checkResult(response))
+export const getNewsData = async (newsId) => {
+  return await fetch(`${API_BASE_URL}/item/${newsId}.json`, {
+    method: 'GET',
+    headers: {
+     'Content-Type': 'application/json',
+    },
+  }).then((response) => checkResult(response))
 }
 
-export const getNewsData = (newsId) => {
-  return fetch(`${API_BASE_URL}/item/${newsId}.json`, {
+export const getNewsIds = async () => {
+  return await fetch(`${API_BASE_URL}/newstories.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
