@@ -56,3 +56,6 @@
 .newsPage__comment:hover {
   border-bottom: 1px solid #000000;
 }
+.newsPage__comment_kid {
+  margin-left: 20px;
+}

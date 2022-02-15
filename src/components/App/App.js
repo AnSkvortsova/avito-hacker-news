@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NewsList } from '../NewsList/NewsList';
 import { NewsPage } from '../NewsPage/NewsPage';
 
-import { getNews, getNewsIds, getComment } from '../../redux/actions';
+import { getNews, getNewsIds, getComments, getKidComments } from '../../redux/actions';
 
 import { MAX_NEWS } from '../../utils/constance';
 
@@ -13,7 +13,9 @@ import { MAX_NEWS } from '../../utils/constance';
 function App() {
   const dispatch = useDispatch();
   const newsIds = useSelector(state => state.news.newsIds);
-  const news = useSelector(state => state.news.news)
+  const news = useSelector(state => state.news.news);
+  const comments = useSelector(state => state.news.comments);
+  const kidComments = useSelector(state => state.news.kidComments);
 
   //получаем все id
   useEffect(() => {
@@ -60,13 +62,20 @@ function App() {
     getNewsArray();
   }, [getNewsArray]);
 
+  //получаем массив комментариев
   const getCommentsArray = useCallback(
-    (commentsArray) => {
-      if(commentsArray === undefined) {
+    (commentsIdArray) => {
+      const oldCommentsId = [];
+      if(commentsIdArray === undefined) {
         return;
+      } if (comments.length !== 0) {
+        comments.forEach(element => {
+          oldCommentsId.push(element.id);
+        });
+        //сравнить два массива и вернуть массив без повторяющихся id
       }
-      commentsArray.map((commentId) => (
-        dispatch(getComment(commentId))
+      commentsIdArray.map((commentId) => (
+        dispatch(getComments(commentId))
       ));
     },
   [dispatch]);
@@ -74,6 +83,21 @@ function App() {
   useEffect(() => {
     getCommentsArray();
   }, [getCommentsArray]);
+
+  const getKidCommentsArray = useCallback(
+    (kidCommentsIdArray) => {
+      if(kidCommentsIdArray === undefined) {
+        return;
+      }
+      kidCommentsIdArray.map((commentId) => (
+        dispatch(getKidComments(commentId))
+      ));
+    },
+  [dispatch]);
+
+  useEffect(() => {
+    getKidCommentsArray();
+  }, [getKidCommentsArray]);
   
   return (
     <div className='app'>
@@ -84,7 +108,8 @@ function App() {
       </Route>
       <Route path='/news/:id'>
         <NewsPage
-        onGetCommentsArray = {getCommentsArray} />
+        onGetCommentsArray = {getCommentsArray}
+        onGetKidCommentsArray = {getKidCommentsArray} />
       </Route>
     </div>
   );

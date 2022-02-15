@@ -25,20 +25,3 @@ export const getNewsIds = () => {
   }).then((response) => checkResult(response))
 };
 
-export const getCurrentItem = (currentId) => {
-  return fetch(`${API_BASE_URL}/item/${currentId}.json?print=pretty`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => checkResult(response))
-};
-
-export const getComment = (commentId) => {
-  return fetch(`${API_BASE_URL}/item/${commentId}.json?print=pretty`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => checkResult(response))
-};

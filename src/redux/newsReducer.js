@@ -4,7 +4,8 @@ const initialState = {
   newsIds: [],
   news: [],
   currentItem: {},
-  comment: [],
+  comments: [],
+  kidComments: [],
   isLoading: false,
 };
 
@@ -16,8 +17,10 @@ export const newsReducer = (state = initialState, action) => {
       return { ...state, news: [action.payload, ...state.news], isLoading: false };
     case types.GET_CURRENT_ITEM_SUCCESS:
       return { ...state, currentItem: action.payload};
-    case types.GET_COMMENT_SUCCESS:
-      return { ...state, comment: [action.payload, ...state.comment]};
+    case types.GET_COMMENTS_SUCCESS:
+      return { ...state, comments: [action.payload, ...state.comments]};
+    case types.GET_KID_COMMENTS_SUCCESS:
+      return { ...state, kidComments: [action.payload, ...state.kidComments]};
     default: return state;
   };
 };

@@ -1,29 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { getTime } from '../../utils/getTime';
-import { getComment } from '../../redux/actions';
 
 export function NewsPage(props) {
-  const dispatch = useDispatch;
   const item = useSelector(state => state.news.currentItem);
-  const comment = useSelector(state => state.news.comment);
-
-  //const getCommentArray = useCallback(
-  //  () => {
-  //    if(item.kids === undefined) {
-  //      return;
-  //    }
-  //    const commentIds = item.kids;
-  //    commentIds.map((commentId) => (
-  //      dispatch(getComment(commentId))
-  //    ));
-  //  },
-  //[dispatch, item.kids]);
-//
-  //useEffect(() => {
-  //  getCommentArray();
-  //}, [getCommentArray]);
+  const comments = useSelector(state => state.news.comments);
+  const kidComments = useSelector(state => state.news.kidComments);
 
   const getComments = useCallback(
     () => {
@@ -38,12 +21,12 @@ export function NewsPage(props) {
     getComments()
   }, [getComments]);
 
-  console.log('comment ', comment)
-  console.log('item ', item)
-
-  function handleCommentClick() {
-    console.log('click')
-  }
+  function handleCommentClick(kidCommentsIdArray) {
+    if(kidCommentsIdArray === undefined) {
+      return;
+    }
+    props.onGetKidCommentsArray(kidCommentsIdArray)
+  };
 
   return (
     <section className='newsPage'>
@@ -68,11 +51,22 @@ export function NewsPage(props) {
         </div>
       </div>
       <ul className='newsPage__comments'>
-        {comment.map((el) => (
-        <li className='newsPage__comment' key={el.id} onClick={handleCommentClick}>{el.text}</li>
-      ))}
+        {comments.map((el) => (
+        <li className='newsPage__comment' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}
+          <ul className='newsPage__comments'>
+            {kidComments.map((el) => (
+              <li className='newsPage__comment newsPage__comment_kid' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}
+                <ul className='newsPage__comments'>
+                  {kidComments.map((el) => (
+                    <li className='newsPage__comment newsPage__comment_kid' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </li>
+        ))}
       </ul>
-      
     </section>
   );
 };

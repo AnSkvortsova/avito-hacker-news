@@ -29,7 +29,7 @@ export function getNews(newsId) {
 
 export function getCurrentItem(currentId) {
   return dispatch => {
-    return api.getCurrentItem(currentId)
+    return api.getNewsData(currentId)
     .then((data) => {
       dispatch({type: types.GET_CURRENT_ITEM_SUCCESS, payload: data})
     })
@@ -39,14 +39,27 @@ export function getCurrentItem(currentId) {
   };
 };
 
-export function getComment(commentId) {
+export function getComments(commentId) {
   return dispatch => {
-    return api.getComment(commentId)
+    return api.getNewsData(commentId)
     .then((data) => {
-      dispatch({type: types.GET_COMMENT_SUCCESS, payload: data})
+      dispatch({type: types.GET_COMMENTS_SUCCESS, payload: data})
     })
     .catch((err) => {
-      dispatch({type: types.GET_COMMENT_FAILURE, payload: err})
+      dispatch({type: types.GET_COMMENTS_FAILURE, payload: err})
+    })
+  }
+};
+
+
+export function getKidComments(commentId) {
+  return dispatch => {
+    return api.getNewsData(commentId)
+    .then((data) => {
+      dispatch({type: types.GET_KID_COMMENTS_SUCCESS, payload: data})
+    })
+    .catch((err) => {
+      dispatch({type: types.GET_KID_COMMENTS_FAILURE, payload: err})
     })
   }
 };
