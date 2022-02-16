@@ -10,10 +10,27 @@ export function NewsPage(props) {
 
   const getComments = useCallback(
     () => {
+      const oldCommentIds = [];
+      const newCommentIds = [];
       if(item.kids === undefined) {
+        comments.length = 0;
         return;
+      } else if (comments.length !== 0) {
+        comments.forEach(element => {
+          if (item.id !== element.parent) {
+            return comments.length = 0;
+          };
+          oldCommentIds.push(element.id);
+        });
+        
+        item.kids.forEach(element => {
+          if(!oldCommentIds.includes(element)) {
+            newCommentIds.push(element);
+          };
+        });
+        return props.onGetCommentsArray(newCommentIds);
       }
-      props.onGetCommentsArray(item.kids)
+      props.onGetCommentsArray(item.kids);
     },
   [item.kids]);
 
@@ -21,24 +38,48 @@ export function NewsPage(props) {
     getComments()
   }, [getComments]);
 
-  function handleCommentClick(kidCommentsIdArray) {
-    if(kidCommentsIdArray === undefined) {
+  function handleCommentClick(kidCommentIdsArray, commentId) {
+    const oldCommentIds = [];
+    const newCommentIds = [];
+    if(kidCommentIdsArray === undefined) {
       return;
-    }
-    props.onGetKidCommentsArray(kidCommentsIdArray)
+    } else if (kidComments.length !== 0) {
+      kidComments.forEach(element => {
+        oldCommentIds.push(element.id);
+      });
+      kidCommentIdsArray.forEach(element => {
+        if(!oldCommentIds.includes(element)) {
+          newCommentIds.push(element)
+        }
+      })
+      return props.onGetKidCommentsArray(newCommentIds);
+    };
+    props.onGetKidCommentsArray(kidCommentIdsArray);
   };
 
+  //function checkParent(commentId) {
+  //  kidComments.forEach(element => {
+  //    if (commentId === element.parent) {
+  //      return true;
+  //    };
+  //  })
+  //}
+
+  console.log('kidComments ', kidComments)
+  console.log('comments ', comments)
   return (
     <section className='newsPage'>
       <a className='newsPage__link' href={item.url}>
         <h1 className='newsPage__title'>{item.title}</h1>
       </a>
+
       <div className='newsPage__info'>
         <ul className='newsPage__about'>
           <li className='newsPage__text'>author: {item.by}</li>
           <li className='newsPage__text'>posted: {getTime(item.time)}</li>
           <li className='newsPage__text'>comment count: {item.descendants}</li>
         </ul>
+
         <div className='newsPage__buttons'>
           <button 
           className='newsList__button' 
@@ -50,23 +91,27 @@ export function NewsPage(props) {
           aria-label='update'>Back</button>
         </div>
       </div>
+
+      {item.kids === undefined ? null :
       <ul className='newsPage__comments'>
         {comments.map((el) => (
-        <li className='newsPage__comment' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}
+        <li 
+        className='newsPage__comment' 
+        key={el.id} 
+        onClick={() => handleCommentClick(el.kids, el.id)}>{el.text}
           <ul className='newsPage__comments'>
             {kidComments.map((el) => (
-              <li className='newsPage__comment newsPage__comment_kid' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}
-                <ul className='newsPage__comments'>
-                  {kidComments.map((el) => (
-                    <li className='newsPage__comment newsPage__comment_kid' key={el.id} onClick={() => handleCommentClick(el.kids)}>{el.text}</li>
-                  ))}
-                </ul>
+              <li 
+              className='newsPage__comment newsPage__comment_kid' 
+              key={el.id} 
+              onClick={() => handleCommentClick(el.kids)}>{el.text}
               </li>
             ))}
           </ul>
         </li>
         ))}
       </ul>
+      }
     </section>
   );
 };

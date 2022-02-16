@@ -43,14 +43,17 @@ export function getComments(commentId) {
   return dispatch => {
     return api.getNewsData(commentId)
     .then((data) => {
-      dispatch({type: types.GET_COMMENTS_SUCCESS, payload: data})
+      let comment;
+      if (data.deleted === true || data.text !== '') {
+        comment = data;
+      }
+      dispatch({type: types.GET_COMMENTS_SUCCESS, payload: comment})
     })
     .catch((err) => {
       dispatch({type: types.GET_COMMENTS_FAILURE, payload: err})
     })
   }
 };
-
 
 export function getKidComments(commentId) {
   return dispatch => {

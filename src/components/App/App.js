@@ -45,7 +45,7 @@ function App() {
           oldNewsId.push(element.id);
         });
         newsIds.forEach(element => {
-          if (!~oldNewsId.indexOf(element)) {
+          if (!oldNewsId.includes(element)) {
             updateNewsIds.unshift(element);
             news.pop();
           };
@@ -64,17 +64,11 @@ function App() {
 
   //получаем массив комментариев
   const getCommentsArray = useCallback(
-    (commentsIdArray) => {
-      const oldCommentsId = [];
-      if(commentsIdArray === undefined) {
+    (commentIdsArray) => {
+      if(commentIdsArray === undefined) {
         return;
-      } if (comments.length !== 0) {
-        comments.forEach(element => {
-          oldCommentsId.push(element.id);
-        });
-        //сравнить два массива и вернуть массив без повторяющихся id
-      }
-      commentsIdArray.map((commentId) => (
+      } 
+      commentIdsArray.map((commentId) => (
         dispatch(getComments(commentId))
       ));
     },
@@ -84,20 +78,14 @@ function App() {
     getCommentsArray();
   }, [getCommentsArray]);
 
-  const getKidCommentsArray = useCallback(
-    (kidCommentsIdArray) => {
-      if(kidCommentsIdArray === undefined) {
-        return;
-      }
-      kidCommentsIdArray.map((commentId) => (
-        dispatch(getKidComments(commentId))
-      ));
-    },
-  [dispatch]);
-
-  useEffect(() => {
-    getKidCommentsArray();
-  }, [getKidCommentsArray]);
+  const getKidCommentsArray = (kidCommentsIdArray) => {
+    if(kidCommentsIdArray === undefined) {
+      return;
+    }
+    kidCommentsIdArray.map((commentId) => (
+      dispatch(getKidComments(commentId))
+    ));
+  };
   
   return (
     <div className='app'>
