@@ -1,72 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { getTime } from '../../utils/getTime';
+import { CommentList } from '../CommentList/CommentList';
 
 export function NewsPage(props) {
   const item = useSelector(state => state.news.currentItem);
-  const comments = useSelector(state => state.news.comments);
-  const kidComments = useSelector(state => state.news.kidComments);
 
-  const getComments = useCallback(
-    () => {
-      const oldCommentIds = [];
-      const newCommentIds = [];
-      if(item.kids === undefined) {
-        comments.length = 0;
-        return;
-      } else if (comments.length !== 0) {
-        comments.forEach(element => {
-          if (item.id !== element.parent) {
-            return comments.length = 0;
-          };
-          oldCommentIds.push(element.id);
-        });
-        
-        item.kids.forEach(element => {
-          if(!oldCommentIds.includes(element)) {
-            newCommentIds.push(element);
-          };
-        });
-        return props.onGetCommentsArray(newCommentIds);
-      }
-      props.onGetCommentsArray(item.kids);
-    },
-  [item.kids]);
-
-  useEffect(() => {
-    getComments()
-  }, [getComments]);
-
-  function handleCommentClick(kidCommentIdsArray, commentId) {
-    const oldCommentIds = [];
-    const newCommentIds = [];
-    if(kidCommentIdsArray === undefined) {
-      return;
-    } else if (kidComments.length !== 0) {
-      kidComments.forEach(element => {
-        oldCommentIds.push(element.id);
-      });
-      kidCommentIdsArray.forEach(element => {
-        if(!oldCommentIds.includes(element)) {
-          newCommentIds.push(element)
-        }
-      })
-      return props.onGetKidCommentsArray(newCommentIds);
-    };
-    props.onGetKidCommentsArray(kidCommentIdsArray);
-  };
-
-  //function checkParent(commentId) {
-  //  kidComments.forEach(element => {
-  //    if (commentId === element.parent) {
-  //      return true;
-  //    };
-  //  })
-  //}
-
-  console.log('kidComments ', kidComments)
-  console.log('comments ', comments)
   return (
     <section className='newsPage'>
       <a className='newsPage__link' href={item.url}>
@@ -91,27 +31,12 @@ export function NewsPage(props) {
           aria-label='update'>Back</button>
         </div>
       </div>
-
-      {item.kids === undefined ? null :
-      <ul className='newsPage__comments'>
-        {comments.map((el) => (
-        <li 
-        className='newsPage__comment' 
-        key={el.id} 
-        onClick={() => handleCommentClick(el.kids, el.id)}>{el.text}
-          <ul className='newsPage__comments'>
-            {kidComments.map((el) => (
-              <li 
-              className='newsPage__comment newsPage__comment_kid' 
-              key={el.id} 
-              onClick={() => handleCommentClick(el.kids)}>{el.text}
-              </li>
-            ))}
-          </ul>
-        </li>
-        ))}
-      </ul>
-      }
+      
+      {item.kids !== undefined 
+      ? <CommentList
+        onGetCommentsArray = {props.onGetCommentsArray}
+        onGetKidCommentsArray = {props.onGetKidCommentsArray} />
+      : null}
     </section>
   );
 };

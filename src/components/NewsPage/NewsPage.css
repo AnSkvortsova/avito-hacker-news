@@ -38,24 +38,3 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
-.newsPage__comments {
-  margin: 30px 0;
-  padding: 0;
-  
-}
-
-.newsPage__comment {
-  font-size: 14px;
-  line-height: 18px;
-  display: block;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
-  list-style: none;
-  margin: 20px 0;
-}
-.newsPage__comment:hover {
-  border-bottom: 1px solid #000000;
-}
-.newsPage__comment_kid {
-  margin-left: 20px;
-}

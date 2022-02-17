@@ -44,8 +44,10 @@ export function getComments(commentId) {
     return api.getNewsData(commentId)
     .then((data) => {
       let comment;
-      if (data.deleted === true || data.text !== '') {
-        comment = data;
+      if (!!data.text) {
+        comment = data
+      } else {
+        return
       }
       dispatch({type: types.GET_COMMENTS_SUCCESS, payload: comment})
     })
