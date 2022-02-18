@@ -14,15 +14,13 @@ function App() {
   const dispatch = useDispatch();
   const newsIds = useSelector(state => state.news.newsIds);
   const news = useSelector(state => state.news.news);
-  const comments = useSelector(state => state.news.comments);
-  const kidComments = useSelector(state => state.news.kidComments);
 
   //получаем все id
   useEffect(() => {
     dispatch(getNewsIds());
   }, [dispatch]);
 
-  //обновляем id
+  //обновляем новости
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getNewsIds());
@@ -50,7 +48,6 @@ function App() {
             news.pop();
           };
         });
-        console.log('updateNewsId ', updateNewsIds)
         updateNewsIds.map((newsId) => (
           dispatch(getNews(newsId))
         ));

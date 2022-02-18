@@ -1,11 +1,28 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+import { getCurrentItem } from '../../redux/actions';
 import { getTime } from '../../utils/getTime';
 import { CommentList } from '../CommentList/CommentList';
 
 export function NewsPage(props) {
+  const dispatch = useDispatch();
   const item = useSelector(state => state.news.currentItem);
+
+  function handleUpdateButton() {
+    dispatch(getCurrentItem(item.id));
+    console.log('click')
+  };
+
+  //обновляем данные item
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(getCurrentItem(item.id));
+      console.log('update')
+    }, 60000);
+    return () => clearTimeout(timer);
+  });
 
   return (
     <section className='newsPage'>
@@ -24,11 +41,9 @@ export function NewsPage(props) {
           <button 
           className='newsList__button' 
           type='button' 
+          onClick={handleUpdateButton}
           aria-label='update'>Update</button>
-          <button 
-          className='newsList__button' 
-          type='button' 
-          aria-label='update'>Back</button>
+          <Link to={`/`} className='newsPage__linkButton'>Back</Link>
         </div>
       </div>
       

@@ -36,7 +36,7 @@ export function CommentList(props) {
     getComments()
   }, [getComments]);
 
-  function handleCommentClick(kidCommentIdsArray, commentId) {
+  function handleCommentClick(kidCommentIdsArray) {
     const oldCommentIds = [];
     const newCommentIds = [];
     if(kidCommentIdsArray === undefined) {
@@ -55,25 +55,40 @@ export function CommentList(props) {
     props.onGetKidCommentsArray(kidCommentIdsArray);
   };
 
-  console.log('Kid comments ', kidComments)
-  console.log('comments ', comments)
-
   return(
       <ul className='comments'>
-        {comments.map((el) => (
-          item.id !== el.parent ? null :
+        {comments.map((element) => (
+          item.id !== element.parent ? null :
           <li 
           className='comments__li' 
-          key={el.id} 
-          onClick={() => handleCommentClick(el.kids, el.id)}>
-            <div className='comments__item'>{el.text}</div>
-            {kidComments.map((elem) => (
-              el.id !== elem.parent ? null :
+          key={element.id} 
+          onClick={() => handleCommentClick(element.kids)}>
+            <div className='comments__item'>{element.text}</div>
+            {kidComments.map((elementL) => (
+              element.id !== elementL.parent ? null :
               <li 
               className='comments__li' 
-              key={elem.id} 
-              onClick={() => handleCommentClick(elem.kids, elem.id)}>
-                <div className='comments__item comments__item_kid'>{elem.text}</div>
+              key={elementL.id} 
+              onClick={() => handleCommentClick(elementL.kids)}>
+                <div className='comments__item comments__item_kidL'>{elementL.text}</div>
+                {kidComments.map((elementM) => (
+                  elementL.id !== elementM.parent ? null :
+                  <li 
+                  className='comments__li' 
+                  key={elementM.id} 
+                  onClick={() => handleCommentClick(elementM.kids)}>
+                    <div className='comments__item comments__item_kidM'>{elementM.text}</div>
+                    {kidComments.map((elementS) => (
+                      elementM.id !== elementS.parent ? null :
+                      <li 
+                      className='comments__li' 
+                      key={elementS.id} 
+                      onClick={() => handleCommentClick(elementS.kids)}>
+                        <div className='comments__item comments__item_kidS'>{elementS.text}</div>
+                      </li>
+                    ))}
+                  </li>
+                ))}
               </li>
             ))}
           </li>

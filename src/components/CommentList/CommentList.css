@@ -18,6 +18,12 @@
 .comments__item:hover {
   border-bottom: 1px solid #000000;
 }
-.comments__item_kid {
+.comments__item_kidL {
   margin-left: 20px;
+}
+.comments__item_kidM {
+  margin-left: 40px;
+}
+.comments__item_kidS {
+  margin-left: 60px;
 }
