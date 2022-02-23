@@ -6,7 +6,6 @@ const initialState = {
   currentItem: {},
   comments: [],
   kidComments: [],
-  isLoading: false,
 };
 
 export const newsReducer = (state = initialState, action) => {

@@ -12,14 +12,11 @@ export function NewsPage(props) {
 
   function handleUpdateButton() {
     dispatch(getCurrentItem(item.id));
-    console.log('click')
   };
 
-  //обновляем данные item
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getCurrentItem(item.id));
-      console.log('update')
     }, 60000);
     return () => clearTimeout(timer);
   });
