@@ -6,7 +6,6 @@ export function CommentList(props) {
   const comments = useSelector(state => state.news.comments);
   const kidComments = useSelector(state => state.news.kidComments);
 
-
   const getComments = useCallback(
     () => {
       const oldCommentIds = [];

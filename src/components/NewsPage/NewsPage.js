@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { getCurrentItem } from '../../redux/actions';
 import { getTime } from '../../utils/getTime';
 import { CommentList } from '../CommentList/CommentList';
+import { Preloader } from '../Preloader/Preloader';
 
 export function NewsPage(props) {
   const dispatch = useDispatch();
   const item = useSelector(state => state.news.currentItem);
+  const isLoading = useSelector(state => state.app.isLoading);
 
   function handleUpdateButton() {
     dispatch(getCurrentItem(item.id));
@@ -43,6 +45,8 @@ export function NewsPage(props) {
           <Link to={`/`} className='newsPage__linkButton'>Back</Link>
         </div>
       </div>
+
+      {isLoading ? <Preloader /> : null}
       
       {item.kids !== undefined 
       ? <CommentList

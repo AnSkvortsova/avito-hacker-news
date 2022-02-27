@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { News } from '../News/News';
+import { Preloader } from '../Preloader/Preloader';
+
 
 export function NewsList(props) {
+  const isLoading = useSelector(state => state.app.isLoading);
+
   function handleClickButton() {
     props.onClickButton();
   };
@@ -17,6 +22,8 @@ export function NewsList(props) {
         onClick={handleClickButton}
         aria-label='update'>Update</button>
       </header>
+
+      {isLoading ? <Preloader /> : null}
 
       {props.news.map((item) => (
         <News

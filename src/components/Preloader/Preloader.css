@@ -1,0 +1,30 @@
+@keyframes preloader-blink {
+  0% {
+    opacity: .2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .2;
+  }
+}
+
+.preloader {
+  margin-top: 10px;
+}
+
+.preloader__dot {
+  font-size: 50px;
+  line-height: 0.1;
+  color: #000000;
+  margin-left: 2px;
+  margin-right: 2px;
+  animation: preloader-blink 1s both infinite;
+}
+.preloader__dot:nth-child(2) {
+  animation-delay: .2s;
+}
+.preloader__dot:nth-child(3) {
+  animation-delay: .4s;
+}
